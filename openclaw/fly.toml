@@ -1,0 +1,60 @@
+# fly.toml — configuration for the OpenClaw pod.
+#
+# `fly launch --no-deploy` then `fly deploy` from the openclaw/
+# subdirectory of the elicify-jarvis repo. Secrets (LLM API keys,
+# setup password, OpenClaw API key) are set with `fly secrets set`.
+
+app = "openclaw-jarvis"
+primary_region = "iad"
+
+# Single public port — Fly's edge proxy forwards 80/443 to 8080, which
+# caddy reverse-proxies to the OpenClaw gateway (:18789) inside the
+# container. OpenClaw serves both the API and the control UI on a
+# single port, so no path-based routing is needed.
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 250
+    soft_limit = 200
+
+# Persistent volume for OpenClaw state — config, sessions, skills,
+# memory, workspace. Survives deploys. 20 GB to leave comfortable
+# headroom for browser automation, media, and session data.
+[[mounts]]
+  source = "openclaw_data"
+  destination = "/data"
+
+[env]
+  # All bind addresses must be 0.0.0.0 — Fly reaches the machine via
+  # its private IP, not loopback.
+  OPENCLAW_GATEWAY_HOST = "0.0.0.0"
+  OPENCLAW_GATEWAY_PORT = "18789"
+  OPENCLAW_HOME = "/data"
+  PORT = "8080"
+  # MiniMax (Anthropic-compatible) endpoint — wired through
+  # openclaw.json's env-var substitution. Also referenced by the
+  # built-in OpenRouter provider via its own env var (Fly secret).
+  MINIMAX_BASE_URL = "https://api.minimax.io/anthropic"
+  MINIMAX_MODEL = "MiniMax-M3"
+
+# Machine sizing — 4 shared vCPU / 8 GB. Comfortable for browser
+# automation, multi-channel, MCP servers, image gen.
+[[vm]]
+  size = "shared-cpu-4x"
+  memory = "8gb"
+  cpus = 4

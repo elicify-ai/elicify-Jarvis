@@ -1,116 +1,140 @@
-# hermes-jarvis
+# elicify-jarvis
 
-Deploy [Hermes Agent](https://github.com/NousResearch/hermes-agent) by
-Nous Research to a [Fly.io](https://fly.io) pod with the v0.16.0 web
-admin dashboard exposed at a single public URL.
+Deployment harness for two self-hosted AI agent stacks on Fly.io:
 
-This repo is a **deployment harness** — Hermes Agent is the dependency.
-We pin to `nousresearch/hermes-agent:v2026.6.5` (the "Surface Release"
-that shipped the web admin dashboard) and wrap it in a small Caddy
-reverse proxy so the gateway, dashboard, and OpenAI-compatible API
-are all reachable on a single port.
+- **`hermes-jarvis.fly.dev`** — [Hermes Agent](https://github.com/NousResearch/hermes-agent) v0.16.0 (Nous Research) with the built-in web admin dashboard, configured to use **MiniMax** (`MiniMax-M3`).
+- **`openclaw-jarvis.fly.dev`** — [OpenClaw](https://github.com/openclaw/openclaw) (the rival agent that has been gaining market share fast in 2026), with MiniMax as the primary provider and **OpenRouter** (`anthropic/claude-3.5-sonnet`) as fallback.
 
-## What's inside
+Both share the same deployment shape: a single public port, Caddy in front, persistent Fly volume, MiniMax auth via Fly secrets, single-binary-style control UI accessible from any browser.
+
+## Layout
 
 ```
 .
-├── Dockerfile           # nousresearch/hermes-agent + caddy + start.sh
-├── Caddyfile            # 8080 → :9119 (dashboard) + :8642 (gateway)
-├── fly.toml             # Fly app config (1 GB machine, 1 GB volume)
-├── docker-compose.yml   # Local dev (mirrors prod)
-├── bin/start.sh         # Supervises gateway + dashboard + caddy
-├── deploy.sh            # `fly deploy --remote-only` wrapper
-├── pyproject.toml       # Python: hermes-agent[web]>=0.16.0
-├── package.json         # Node: declares the Docker image as a dep
-└── .env.example         # Template for LLM keys + dashboard auth
+├── Dockerfile             # Hermes: nousresearch/hermes-agent + caddy + tini
+├── Caddyfile              # 8080 → 9119 (dashboard) + 8642 (gateway)
+├── fly.toml               # hermes-jarvis app — shared-cpu-8x, 8 GB, 10 GB vol
+├── docker-compose.yml     # local dev for Hermes
+├── deploy.sh              # fly launch + volume + deploy
+├── bin/start.sh           # supervises hermes gateway + dashboard + caddy
+├── pyproject.toml         # Python: hermes-agent[web]>=0.16.0
+├── package.json           # node: declares the Docker image as a dep
+├── .env.example           # template for secrets
+│
+└── openclaw/              # OpenClaw deploy (sibling app)
+    ├── Dockerfile         # ghcr.io/openclaw/openclaw:latest + caddy + tini + gosu
+    ├── Caddyfile          # 8080 → 18789 (gateway + control UI)
+    ├── fly.toml           # openclaw-jarvis app — shared-cpu-4x, 8 GB, 20 GB vol
+    ├── start.sh           # supervises openclaw gateway + caddy; bakes openclaw.json
+    └── deploy.sh
 ```
 
-## Architecture
+## Live deployments
+
+| | Hermes (`hermes-jarvis`) | OpenClaw (`openclaw-jarvis`) |
+|---|---|---|
+| **URL** | `https://hermes-jarvis.fly.dev/` | `https://openclaw-jarvis.fly.dev/` |
+| **Dashboard login** | `admin` / `hermesdev2026` (Fly secret) | Enter the `OPENCLAW_API_KEY` Fly secret into the dashboard's Connect form |
+| **Version** | v0.16.0 (Surface Release, 2026.6.5) | v2026.6.5 |
+| **Machine** | shared-cpu-8x, 8 GB | shared-cpu-4x, 8 GB |
+| **Volume** | `hermes_data` — 10 GB encrypted | `openclaw_data` — 20 GB encrypted |
+| **Primary LLM** | MiniMax `MiniMax-M3` | MiniMax `MiniMax-M3` |
+| **Fallback LLM** | (none) | OpenRouter `anthropic/claude-3.5-sonnet` |
+| **Health** | `{"status":"ok","platform":"hermes-agent"}` | gateway reports `ready` + 8 plugins |
+| **Image source** | `nousresearch/hermes-agent:v2026.6.5` (Docker Hub) | `ghcr.io/openclaw/openclaw:latest` (GHCR) |
+
+## Architecture (both apps follow the same pattern)
 
 ```
                           public internet
                                  │
                                  ▼
                   ┌────────────────────────────┐
-                  │  Fly edge proxy            │
-                  │  (TLS, HTTPS, port 443)    │
+                  │  Fly edge proxy (TLS, 443) │
                   └─────────────┬──────────────┘
                                 │
                                 ▼
                   ┌────────────────────────────┐
-                  │  Container                 │
+                  │  Container (Firecracker)   │
                   │                            │
-                  │  caddy (:8080)  ◄── public │
+                  │  caddy (:8080)             │
                   │     │                      │
-                  │     ├── /  /api/*  ──► dashboard (:9119)
-                  │     │                      │   (web admin UI,
-                  │     │                      │    v0.16.0)
+                  │     ├── /            ──►  agent gateway (UI + API)
                   │     │                      │
-                  │     └── /v1/*  /health ──► gateway   (:8642)
-                  │                            │   (OpenAI-compat
-                  │                            │    API server)
-                  │                            │
-                  │  Volume: /opt/data         │
-                  │    ├── config.yaml         │
-                  │    ├── sessions/ skills/   │
-                  │    ├── memory/ creds/      │
+                  │  Volume: /opt/data  or    │
+                  │           /data           │
+                  │     ├── config            │
+                  │     ├── sessions/skills/  │
+                  │     ├── memory/creds/     │
+                  │     └── workspace/        │
                   └────────────────────────────┘
 ```
 
-## Quick start
+## Configuration reference
 
-### 1. Local (docker compose)
+### Hermes
+
+| Env var | Purpose |
+|---|---|
+| `MINIMAX_API_KEY` (Fly secret) | LLM credentials |
+| `MINIMAX_BASE_URL` | `https://api.minimax.io/anthropic` |
+| `MINIMAX_MODEL` | `MiniMax-M3` |
+| `API_SERVER_KEY` (Fly secret) | Bearer token for the OpenAI-compatible API |
+| `HERMES_DASHBOARD_BASIC_AUTH_USERNAME/PASSWORD` | Dashboard login |
+| `HERMES_SKIP_CONFIG_MIGRATION` | Optional — inspect config before the image rewrites it |
+
+### OpenClaw
+
+| Env var | Purpose |
+|---|---|
+| `MINIMAX_API_KEY` (Fly secret) | Primary LLM credentials |
+| `MINIMAX_BASE_URL` | `https://api.minimax.io/anthropic` |
+| `MINIMAX_MODEL` | `MiniMax-M3` |
+| `OPENROUTER_API_KEY` (Fly secret) | Fallback LLM credentials |
+| `OPENCLAW_API_KEY` (Fly secret) | Bearer token for the WebSocket gateway |
+| `OPENROUTER_API_KEY` | (set in `openclaw.json` via Fly secret) |
+
+## How to deploy
+
+### 1. Hermes
 
 ```bash
-cp .env.example .env
-$EDITOR .env                      # set ANTHROPIC_API_KEY, dashboard auth
-docker compose up --build
-# open http://localhost:8080
+fly secrets set --app hermes-jarvis \
+    MINIMAX_API_KEY=sk-... \
+    API_SERVER_KEY=$(openssl rand -hex 32) \
+    HERMES_DASHBOARD_BASIC_AUTH_USERNAME=admin \
+    HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=$(openssl rand -hex 16)
+bash deploy.sh
+# → https://hermes-jarvis.fly.dev/
 ```
 
-### 2. Fly.io (this devpod or anywhere)
+### 2. OpenClaw
 
 ```bash
-cp .env.example .env
-$EDITOR .env                      # set ANTHROPIC_API_KEY, dashboard auth
-fly secrets import < .env         # or: fly secrets set KEY=VAL
-bash deploy.sh                    # creates app, volume, deploys
-# open https://hermes-jarvis.fly.dev
+cd openclaw
+fly secrets set --app openclaw-jarvis \
+    MINIMAX_API_KEY=sk-... \
+    OPENROUTER_API_KEY=sk-or-... \
+    OPENCLAW_API_KEY=$(openssl rand -hex 32)
+bash deploy.sh
+# → https://openclaw-jarvis.fly.dev/
+# Open the URL, paste the OPENCLAW_API_KEY into the dashboard's Connect form.
 ```
 
 ## What you can do once it's running
 
-- **Web admin dashboard** — channels, MCP servers, credentials,
-  memory, webhooks, gateway controls, all in the browser
-- **Chat with Hermes** — same backend as the Hermes Desktop app
-- **Connect the Hermes Desktop app** to this pod as a remote backend
-  (`HERMES_DESKTOP_REMOTE_URL=https://hermes-jarvis.fly.dev` +
-  `HERMES_DASHBOARD_BASIC_AUTH_*`)
-- **OpenAI-compatible API** at `/v1/chat/completions`, `/v1/models`,
-  `/v1/runs`, `/health` — any client that speaks OpenAI can talk to it
-
-## Configuration reference
-
-| Env var | Required | Purpose |
-| --- | --- | --- |
-| `ANTHROPIC_API_KEY` (or another provider key) | yes | LLM credentials |
-| `API_SERVER_KEY` | yes (prod) | Bearer token for the OpenAI API |
-| `HERMES_DASHBOARD_BASIC_AUTH_USERNAME/PASSWORD` | recommended | Dashboard login |
-| `API_SERVER_CORS_ORIGINS` | optional | Browser CORS for `/v1/*` |
-| `HERMES_SKIP_CONFIG_MIGRATION` | optional | Inspect config before the image rewrites it |
-
-Full reference: https://hermes-agent.nousresearch.com/docs/reference/environment-variables
+- **Web admin dashboard in a browser** — chat, memory, skills, MCP servers, channels, settings
+- **Point the Hermes Desktop app** at either pod as a remote backend
+- **Use the OpenAI-compatible API** at `/v1/chat/completions` with `Authorization: Bearer $API_SERVER_KEY` for Hermes, or via WebSocket for OpenClaw
+- **Run both in parallel** — different Fly apps, different secrets, no interference
 
 ## Security notes
 
-- Hermes' permission model is broad by design (it can shell into the
-  machine). Treat dashboard access like machine access.
-- Always set `HERMES_DASHBOARD_BASIC_AUTH_*` for any non-loopback deploy.
-- The `hermes-webui` ecosystem component had a path-traversal CVE in
-  April 2026 (CVE-2026-6829, fixed in v0.50.34+). Pinning the official
-  `nousresearch/hermes-agent:v2026.6.5` image avoids that surface.
-- Recent CVEs in `hermes-agent` itself are closed in v0.16.0 — don't
-  pin to an image older than `v2026.5.16`.
+- All Fly volumes are encrypted at rest.
+- Hermes dashboard uses HTTP basic auth; OpenClaw uses token auth via the WebSocket.
+- Always set `HERMES_DASHBOARD_BASIC_AUTH_*` and `OPENCLAW_API_KEY` for any non-loopback deploy.
+- Don't paste the API keys into the dashboard UI — they're configured via Fly secrets and read at runtime.
+- Both projects had CVEs in early 2026 — Hermes v0.16.0 + OpenClaw v2026.6.5 are pinned past the relevant fixes.
 
 ## License
 

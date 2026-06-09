@@ -1,0 +1,231 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e9]:
+        - link "OpenClaw" [ref=e10] [cursor=pointer]:
+          - /url: /overview
+        - generic [ref=e11]:
+          - generic [ref=e12]: ›
+          - generic "main" [ref=e13]
+        - generic [ref=e14]: ›
+        - generic [ref=e15]: Chat
+      - generic [ref=e16]:
+        - button "Open command palette" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: Search
+          - generic [ref=e19]: ⌘K
+        - group "Color mode" [ref=e21]:
+          - 'button "Color mode: System" [pressed] [ref=e22] [cursor=pointer]':
+            - img [ref=e23]
+            - text: "Color mode: System"
+          - 'button "Color mode: Light" [ref=e25] [cursor=pointer]':
+            - img [ref=e26]
+            - text: "Color mode: Light"
+          - 'button "Color mode: Dark" [ref=e32] [cursor=pointer]':
+            - img [ref=e33]
+            - text: "Color mode: Dark"
+  - complementary [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - img "OpenClaw" [ref=e40]
+          - generic [ref=e41]:
+            - generic [ref=e42]: Control
+            - generic [ref=e43]: OpenClaw
+        - button "Collapse sidebar" [ref=e44] [cursor=pointer]:
+          - img [ref=e46]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - button "New session" [ref=e51] [cursor=pointer]:
+            - img [ref=e53]
+            - generic [ref=e54]: New session
+          - generic [ref=e55]:
+            - button "Chat session" [ref=e58] [cursor=pointer]:
+              - generic [ref=e59]: Main Session
+              - img [ref=e61]
+            - status
+          - generic "Recent Sessions" [ref=e63]:
+            - button "Recent" [expanded] [ref=e64] [cursor=pointer]:
+              - generic [ref=e65]: Recent
+              - img [ref=e67]
+            - link "Main Session 10m ago" [ref=e70] [cursor=pointer]:
+              - /url: /chat?session=agent%3Amain%3Amain
+              - generic [ref=e72]:
+                - generic [ref=e73]: Main Session
+                - generic [ref=e74]: 10m ago
+        - navigation [ref=e75]:
+          - generic [ref=e76]:
+            - button "Chat" [expanded] [ref=e77] [cursor=pointer]:
+              - generic [ref=e78]: Chat
+              - img [ref=e80]
+            - link "Chat" [ref=e83] [cursor=pointer]:
+              - /url: /chat
+              - img [ref=e85]
+              - generic [ref=e87]: Chat
+          - generic [ref=e88]:
+            - button "Control" [expanded] [ref=e89] [cursor=pointer]:
+              - generic [ref=e90]: Control
+              - img [ref=e92]
+            - generic [ref=e94]:
+              - link "Overview" [ref=e95] [cursor=pointer]:
+                - /url: /overview
+                - img [ref=e97]
+                - generic [ref=e98]: Overview
+              - link "Activity" [ref=e99] [cursor=pointer]:
+                - /url: /activity
+                - img [ref=e101]
+                - generic [ref=e103]: Activity
+              - link "Workboard" [ref=e104] [cursor=pointer]:
+                - /url: /workboard
+                - img [ref=e106]
+                - generic [ref=e108]: Workboard
+              - link "Instances" [ref=e109] [cursor=pointer]:
+                - /url: /instances
+                - img [ref=e111]
+                - generic [ref=e114]: Instances
+              - link "Sessions" [ref=e115] [cursor=pointer]:
+                - /url: /sessions
+                - img [ref=e117]
+                - generic [ref=e120]: Sessions
+              - link "Usage" [ref=e121] [cursor=pointer]:
+                - /url: /usage
+                - img [ref=e123]
+                - generic [ref=e124]: Usage
+              - link "Cron Jobs" [ref=e125] [cursor=pointer]:
+                - /url: /cron
+                - img [ref=e127]
+                - generic [ref=e132]: Cron Jobs
+          - generic [ref=e133]:
+            - button "Agent" [expanded] [ref=e134] [cursor=pointer]:
+              - generic [ref=e135]: Agent
+              - img [ref=e137]
+            - generic [ref=e139]:
+              - link "Agents" [ref=e140] [cursor=pointer]:
+                - /url: /agents
+                - img [ref=e142]
+                - generic [ref=e144]: Agents
+              - link "Skills" [ref=e145] [cursor=pointer]:
+                - /url: /skills
+                - img [ref=e147]
+                - generic [ref=e149]: Skills
+              - link "Skill Workshop" [ref=e150] [cursor=pointer]:
+                - /url: /skills/workshop
+                - img [ref=e152]
+                - generic [ref=e154]: Skill Workshop
+              - link "Nodes" [ref=e155] [cursor=pointer]:
+                - /url: /nodes
+                - img [ref=e157]
+                - generic [ref=e159]: Nodes
+              - link "Dreaming" [ref=e160] [cursor=pointer]:
+                - /url: /dreaming
+                - img [ref=e162]
+                - generic [ref=e164]: Dreaming
+          - generic [ref=e165]:
+            - button "Settings" [expanded] [ref=e166] [cursor=pointer]:
+              - generic [ref=e167]: Settings
+              - img [ref=e169]
+            - link "Settings" [ref=e172] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e174]
+              - generic [ref=e177]: Settings
+      - generic [ref=e179]:
+        - link "Docs" [ref=e180] [cursor=pointer]:
+          - /url: https://docs.openclaw.ai
+          - img [ref=e182]
+          - generic [ref=e184]: Docs
+          - img [ref=e186]
+        - text: "Color mode: System Color mode: Light Color mode: Dark"
+        - generic "v2026.6.5" [ref=e189]:
+          - generic [ref=e190]: Version
+          - generic [ref=e191]: v2026.6.5
+          - 'img "Gateway status: Online" [ref=e192]'
+  - main [ref=e193]:
+    - generic [ref=e194]:
+      - generic [ref=e195]:
+        - log [ref=e198]:
+          - generic [ref=e200]:
+            - img "Assistant" [ref=e202]
+            - heading "Assistant" [level=2] [ref=e203]
+            - generic [ref=e205]: Ready to chat
+            - paragraph [ref=e206]:
+              - text: Type a message below ·
+              - generic [ref=e207]: /
+              - text: for commands
+            - generic [ref=e208]:
+              - button "What can you do?" [ref=e209] [cursor=pointer]
+              - button "Summarize my recent sessions" [ref=e210] [cursor=pointer]
+              - button "Help me configure a channel" [ref=e211] [cursor=pointer]
+              - button "Check system health" [ref=e212] [cursor=pointer]
+        - complementary "Workspace files" [ref=e213]:
+          - generic [ref=e214]:
+            - generic [ref=e215]:
+              - generic [ref=e216]: Workspace
+              - strong [ref=e217]: Files
+            - button "Refresh files" [ref=e218] [cursor=pointer]:
+              - img [ref=e219]
+          - generic "/data/.openclaw/workspace" [ref=e222]
+          - list [ref=e223]:
+            - listitem "/data/.openclaw/workspace/AGENTS.md" [ref=e224] [cursor=pointer]:
+              - img [ref=e226]
+              - generic [ref=e229]:
+                - generic [ref=e230]: AGENTS.md
+                - generic [ref=e231]: 7.9 KB
+            - listitem "/data/.openclaw/workspace/SOUL.md" [ref=e232] [cursor=pointer]:
+              - img [ref=e234]
+              - generic [ref=e237]:
+                - generic [ref=e238]: SOUL.md
+                - generic [ref=e239]: 1.8 KB
+            - listitem "/data/.openclaw/workspace/TOOLS.md" [ref=e240] [cursor=pointer]:
+              - img [ref=e242]
+              - generic [ref=e245]:
+                - generic [ref=e246]: TOOLS.md
+                - generic [ref=e247]: 920 B
+            - listitem "/data/.openclaw/workspace/IDENTITY.md" [ref=e248] [cursor=pointer]:
+              - img [ref=e250]
+              - generic [ref=e253]:
+                - generic [ref=e254]: IDENTITY.md
+                - generic [ref=e255]: 696 B
+            - listitem "/data/.openclaw/workspace/USER.md" [ref=e256] [cursor=pointer]:
+              - img [ref=e258]
+              - generic [ref=e261]:
+                - generic [ref=e262]: USER.md
+                - generic [ref=e263]: 537 B
+            - listitem "/data/.openclaw/workspace/HEARTBEAT.md" [ref=e264] [cursor=pointer]:
+              - img [ref=e266]
+              - generic [ref=e269]:
+                - generic [ref=e270]: HEARTBEAT.md
+                - generic [ref=e271]: 244 B
+            - listitem "/data/.openclaw/workspace/BOOTSTRAP.md" [ref=e272] [cursor=pointer]:
+              - img [ref=e274]
+              - generic [ref=e277]:
+                - generic [ref=e278]: BOOTSTRAP.md
+                - generic [ref=e279]: 1.5 KB
+            - listitem "/data/.openclaw/workspace/MEMORY.md" [ref=e280] [cursor=pointer]:
+              - img [ref=e282]
+              - generic [ref=e286]: MEMORY.md
+              - generic [ref=e287]: Missing
+      - generic [ref=e288]:
+        - 'status "Session context usage: 23.9k / 200k (12%)" [ref=e290]':
+          - generic [ref=e293]: 12% context used
+          - generic [ref=e294]: 23.9k / 200k
+        - generic [ref=e295]:
+          - textbox "Message Assistant (Enter to send)" [ref=e296]
+          - status [ref=e297]
+        - generic [ref=e298]:
+          - generic [ref=e299]:
+            - button "Attach file" [ref=e300] [cursor=pointer]:
+              - img [ref=e301]
+            - button "Start Talk" [ref=e303] [cursor=pointer]:
+              - img [ref=e304]
+            - button "Talk settings" [ref=e307] [cursor=pointer]:
+              - img [ref=e308]
+          - generic [ref=e311]:
+            - group [ref=e313]:
+              - 'generic "Chat model, Chat thinking level: MiniMax (default) · Off" [ref=e314] [cursor=pointer]':
+                - generic [ref=e315]: MiniMax (default) · Off
+                - img [ref=e317]
+            - button "Chat settings" [ref=e320] [cursor=pointer]:
+              - img [ref=e322]
+              - generic [ref=e325]: Chat settings
+              - img [ref=e327]
+          - button "Send message" [ref=e330] [cursor=pointer]:
+            - img [ref=e331]

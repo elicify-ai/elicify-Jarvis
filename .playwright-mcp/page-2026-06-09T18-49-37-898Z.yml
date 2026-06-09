@@ -1,0 +1,60 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - img "OpenClaw" [ref=e6]
+    - generic [ref=e7]: OpenClaw
+    - generic [ref=e8]: Gateway Dashboard
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]: WebSocket URL
+      - textbox "WebSocket URL" [ref=e12]:
+        - /placeholder: ws://127.0.0.1:18789
+        - text: wss://openclaw-jarvis.fly.dev
+    - generic [ref=e13]:
+      - generic [ref=e14]: Gateway Token
+      - generic [ref=e15]:
+        - textbox "Gateway Token Toggle token visibility" [ref=e16]:
+          - /placeholder: OPENCLAW_GATEWAY_TOKEN (optional)
+          - text: 7806e61b90b40c4839c23960a2ab4d28d57cf8fb6f49ed2bd6047ded5bc1624e
+        - button "Toggle token visibility" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+    - generic [ref=e23]:
+      - generic [ref=e24]: Password (not stored)
+      - generic [ref=e25]:
+        - textbox "Password (not stored) Toggle password visibility" [ref=e26]:
+          - /placeholder: optional
+        - button "Toggle password visibility" [ref=e27] [cursor=pointer]:
+          - img [ref=e28]
+    - button "Connect" [ref=e33] [cursor=pointer]
+  - alert [ref=e34]:
+    - generic [ref=e35]: Device pairing required
+    - generic [ref=e36]: This browser needs one-time approval from the Gateway host before it can use the Control UI.
+    - list [ref=e37]:
+      - listitem [ref=e38]: Run openclaw devices list on the Gateway host.
+      - listitem [ref=e39]: "Approve this request: openclaw devices approve 811a6bbb-3b05-42bf-921d-dd921edf8c76."
+      - listitem [ref=e40]: Reconnect after the approval completes.
+    - group [ref=e41]:
+      - generic "Raw error" [ref=e42] [cursor=pointer]
+    - link "Device pairing docs" [ref=e43] [cursor=pointer]:
+      - /url: https://docs.openclaw.ai/web/control-ui#device-pairing-first-connection
+  - generic [ref=e44]:
+    - generic [ref=e45]: How to connect
+    - list [ref=e46]:
+      - listitem [ref=e47]:
+        - text: "Start the gateway on your host machine:"
+        - 'button "Copy command: openclaw gateway run" [ref=e48]':
+          - code [ref=e49]: openclaw gateway run
+          - button "Copy command" [ref=e50] [cursor=pointer]:
+            - generic [ref=e51]:
+              - img [ref=e53]
+              - img [ref=e57]
+      - listitem [ref=e59]:
+        - text: "Get a tokenized dashboard URL:"
+        - 'button "Copy command: openclaw dashboard" [ref=e60]':
+          - code [ref=e61]: openclaw dashboard
+          - button "Copy command" [ref=e62] [cursor=pointer]:
+            - generic [ref=e63]:
+              - img [ref=e65]
+              - img [ref=e69]
+      - listitem [ref=e71]: Paste the WebSocket URL and token above, or open the tokenized URL directly.
+    - link "Read the docs →" [ref=e73] [cursor=pointer]:
+      - /url: https://docs.openclaw.ai/web/dashboard

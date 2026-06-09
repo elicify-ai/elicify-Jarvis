@@ -1,0 +1,17 @@
+# Reverse proxy for the OpenClaw pod.
+#
+# The devpod preview proxy and Fly's edge proxy both forward public
+# traffic to port 8080. Inside the container:
+#   :18789 — OpenClaw gateway (API + control UI on a single port)
+#
+# Single upstream — straightforward 1:1 forward with a few sane
+# timeouts for long-lived streaming responses.
+
+:8080 {
+    encode zstd gzip
+
+    # Long timeouts — OpenClaw agent runs can stream for minutes.
+    reverse_proxy 127.0.0.1:18789 {
+        flush_interval -1
+    }
+}
