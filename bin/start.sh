@@ -41,6 +41,23 @@ if [ ! -f "${HERMES_HOME:-/opt/data}/config.yaml" ] && [ -z "${HERMES_SKIP_CONFI
         gosu 10000 hermes setup --non-interactive 2>/dev/null || true
 fi
 
+# If MINIMAX_* env vars are present, ensure config.yaml selects the
+# MiniMax provider with the right base URL and default model. We do
+# this every boot (idempotent `hermes config set`) so a re-deploy that
+# adds new defaults picks them up.
+#
+# The API key itself goes into config.yaml under providers.minimax.api_key
+# (the volume is encrypted at rest by Fly, same threat model as a Fly
+# secret). The minimax provider overlay in Hermes v0.16.0 has no
+# extra_env_vars mapping, so this is the supported way to inject the key.
+if [ -n "${MINIMAX_API_KEY:-}" ] && [ -n "${MINIMAX_BASE_URL:-}" ] && [ -n "${MINIMAX_MODEL:-}" ]; then
+    echo "[start.sh] MINIMAX_API_KEY detected — configuring Hermes to use MiniMax provider"
+    gosu 10000 hermes config set model.provider minimax 2>/dev/null || true
+    gosu 10000 hermes config set model.base_url "${MINIMAX_BASE_URL}" 2>/dev/null || true
+    gosu 10000 hermes config set model.default "${MINIMAX_MODEL}" 2>/dev/null || true
+    gosu 10000 hermes config set providers.minimax.api_key "${MINIMAX_API_KEY}" 2>/dev/null || true
+fi
+
 # Start the gateway in the background. It exposes the OpenAI-compatible
 # API on :8642 and (with HERMES_DASHBOARD=1) embeds the dashboard
 # plugin — but we run the standalone `hermes dashboard` below for the

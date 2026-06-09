@@ -48,8 +48,10 @@ primary_region = "iad"
   HERMES_HOME = "/opt/data"
   PORT = "8080"
 
-# Machine sizing — Hermes is light; 1 shared CPU / 1 GB is plenty.
+# Machine sizing — 8 GB RAM, 8 shared CPU. Hermes runs memory-heavy
+# workflows (skill memory, large contexts, browser tools) so we leave
+# headroom. Root disk is the platform default (20+ GB on shared-cpu-8x).
 [[vm]]
-  size = "shared-cpu-1x"
-  memory = "1gb"
-  cpus = 1
+  size = "shared-cpu-8x"
+  memory = "8gb"
+  cpus = 8

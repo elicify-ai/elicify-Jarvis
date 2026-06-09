@@ -1,0 +1,161 @@
+- generic [ref=e5]:
+  - complementary "Navigation" [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e9]:
+        - text: Hermes
+        - text: Agent
+      - button "Collapse" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+    - navigation "Navigation" [ref=e14]:
+      - list [ref=e15]:
+        - listitem [ref=e16]:
+          - link "Chat" [ref=e17] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e18]
+            - generic [ref=e20]: Chat
+        - listitem [ref=e22]:
+          - link "Sessions" [ref=e23] [cursor=pointer]:
+            - /url: /sessions
+            - img [ref=e24]
+            - generic [ref=e26]: Sessions
+        - listitem [ref=e27]:
+          - link "Models" [ref=e28] [cursor=pointer]:
+            - /url: /models
+            - img [ref=e29]
+            - generic [ref=e32]: Models
+        - listitem [ref=e33]:
+          - link "Logs" [ref=e34] [cursor=pointer]:
+            - /url: /logs
+            - img [ref=e35]
+            - generic [ref=e38]: Logs
+        - listitem [ref=e39]:
+          - link "Cron" [ref=e40] [cursor=pointer]:
+            - /url: /cron
+            - img [ref=e41]
+            - generic [ref=e44]: Cron
+        - listitem [ref=e45]:
+          - link "Skills" [ref=e46] [cursor=pointer]:
+            - /url: /skills
+            - img [ref=e47]
+            - generic [ref=e51]: Skills
+        - listitem [ref=e52]:
+          - link "Plugins" [ref=e53] [cursor=pointer]:
+            - /url: /plugins
+            - img [ref=e54]
+            - generic [ref=e56]: Plugins
+        - listitem [ref=e57]:
+          - link "MCP" [ref=e58] [cursor=pointer]:
+            - /url: /mcp
+            - img [ref=e59]
+            - generic [ref=e61]: MCP
+        - listitem [ref=e62]:
+          - link "Channels" [ref=e63] [cursor=pointer]:
+            - /url: /channels
+            - img [ref=e64]
+            - generic [ref=e70]: Channels
+        - listitem [ref=e71]:
+          - link "Webhooks" [ref=e72] [cursor=pointer]:
+            - /url: /webhooks
+            - img [ref=e73]
+            - generic [ref=e77]: Webhooks
+        - listitem [ref=e78]:
+          - link "Pairing" [ref=e79] [cursor=pointer]:
+            - /url: /pairing
+            - img [ref=e80]
+            - generic [ref=e83]: Pairing
+        - listitem [ref=e84]:
+          - link "Profiles" [ref=e85] [cursor=pointer]:
+            - /url: /profiles
+            - img [ref=e86]
+            - generic [ref=e91]: Profiles
+        - listitem [ref=e92]:
+          - link "Config" [ref=e93] [cursor=pointer]:
+            - /url: /config
+            - img [ref=e94]
+            - generic [ref=e97]: Config
+        - listitem [ref=e98]:
+          - link "Keys" [ref=e99] [cursor=pointer]:
+            - /url: /env
+            - img [ref=e100]
+            - generic [ref=e103]: Keys
+        - listitem [ref=e104]:
+          - link "System" [ref=e105] [cursor=pointer]:
+            - /url: /system
+            - img [ref=e106]
+            - generic [ref=e108]: System
+        - listitem [ref=e109]:
+          - link "Documentation" [ref=e110] [cursor=pointer]:
+            - /url: /docs
+            - img [ref=e111]
+            - generic [ref=e113]: Documentation
+      - group "Plugins" [ref=e168]:
+        - generic [ref=e169]: Plugins
+        - list [ref=e170]:
+          - listitem [ref=e171]:
+            - link "Kanban" [ref=e172] [cursor=pointer]:
+              - /url: /kanban
+              - img [ref=e173]
+              - generic [ref=e177]: Kanban
+          - listitem [ref=e178]:
+            - link "Achievements" [ref=e179] [cursor=pointer]:
+              - /url: /achievements
+              - img [ref=e180]
+              - generic [ref=e182]: Achievements
+    - generic [ref=e114]:
+      - generic [ref=e115]: System
+      - 'link "Gateway Status: Running Active Sessions: 0" [ref=e183] [cursor=pointer]':
+        - /url: /sessions
+        - generic [ref=e184]:
+          - paragraph [ref=e185]: "Gateway Status: Running"
+          - paragraph [ref=e186]: "Active Sessions: 0"
+      - status "Gateway Running"
+      - list [ref=e120]:
+        - listitem [ref=e121]:
+          - button "Restart Gateway" [ref=e122] [cursor=pointer]:
+            - img [ref=e123]
+            - generic [ref=e126]: Restart Gateway
+        - listitem [ref=e127]:
+          - button "Update Hermes" [ref=e128] [cursor=pointer]:
+            - img [ref=e129]
+            - generic [ref=e132]: Update Hermes
+    - generic [ref=e134]:
+      - button "Switch theme" [ref=e137] [cursor=pointer]:
+        - generic [ref=e138]:
+          - img [ref=e139]
+          - generic [ref=e145]: Hermes Teal
+      - button "Switch language" [ref=e148] [cursor=pointer]:
+        - generic [ref=e150]: EN
+    - generic [ref=e151]:
+      - status "Logged in as admin" [ref=e187]:
+        - generic [ref=e188]:
+          - generic "admin" [ref=e189]
+          - generic [ref=e190]: via basic
+        - button "Log out" [ref=e191]:
+          - img [ref=e192]
+      - generic [ref=e153]:
+        - generic [ref=e154]: v0.16.0
+        - link "Nous Research" [ref=e155] [cursor=pointer]:
+          - /url: https://nousresearch.com
+  - generic [ref=e156]:
+    - banner [ref=e157]:
+      - heading "Chat" [level=1] [ref=e160]
+    - main [ref=e161]:
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - textbox "Terminal input" [active] [ref=e202]
+          - button "Copy last assistant response" [ref=e203] [cursor=pointer]:
+            - generic [ref=e204]:
+              - img [ref=e205]
+              - generic [ref=e208]: copy last response
+        - complementary "Model & tools" [ref=e209]:
+          - complementary [ref=e211]:
+            - generic [ref=e212]:
+              - generic [ref=e213]:
+                - generic [ref=e214]: model
+                - button "MiniMax-M3" [ref=e215] [cursor=pointer]:
+                  - generic [ref=e216]: MiniMax-M3
+                  - img [ref=e218]
+              - generic [ref=e220]: live
+            - generic [ref=e221]:
+              - generic [ref=e222]: tools
+              - generic [ref=e224]: no tool calls yet

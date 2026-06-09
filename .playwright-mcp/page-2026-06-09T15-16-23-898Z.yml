@@ -1,0 +1,163 @@
+- generic [ref=e5]:
+  - complementary "Navigation" [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e9]:
+        - text: Hermes
+        - text: Agent
+      - button "Collapse" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+    - navigation "Navigation" [ref=e14]:
+      - list [ref=e15]:
+        - listitem [ref=e16]:
+          - link "Chat" [ref=e17] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e18]
+            - generic [ref=e20]: Chat
+        - listitem [ref=e21]:
+          - link "Sessions" [ref=e22] [cursor=pointer]:
+            - /url: /sessions
+            - img [ref=e23]
+            - generic [ref=e25]: Sessions
+        - listitem [ref=e26]:
+          - link "Models" [ref=e27] [cursor=pointer]:
+            - /url: /models
+            - img [ref=e28]
+            - generic [ref=e31]: Models
+        - listitem [ref=e32]:
+          - link "Logs" [ref=e33] [cursor=pointer]:
+            - /url: /logs
+            - img [ref=e34]
+            - generic [ref=e37]: Logs
+        - listitem [ref=e39]:
+          - link "Cron" [ref=e40] [cursor=pointer]:
+            - /url: /cron
+            - img [ref=e41]
+            - generic [ref=e44]: Cron
+        - listitem [ref=e45]:
+          - link "Skills" [ref=e46] [cursor=pointer]:
+            - /url: /skills
+            - img [ref=e47]
+            - generic [ref=e51]: Skills
+        - listitem [ref=e52]:
+          - link "Plugins" [ref=e53] [cursor=pointer]:
+            - /url: /plugins
+            - img [ref=e54]
+            - generic [ref=e56]: Plugins
+        - listitem [ref=e57]:
+          - link "MCP" [ref=e58] [cursor=pointer]:
+            - /url: /mcp
+            - img [ref=e59]
+            - generic [ref=e61]: MCP
+        - listitem [ref=e62]:
+          - link "Channels" [ref=e63] [cursor=pointer]:
+            - /url: /channels
+            - img [ref=e64]
+            - generic [ref=e70]: Channels
+        - listitem [ref=e71]:
+          - link "Webhooks" [ref=e72] [cursor=pointer]:
+            - /url: /webhooks
+            - img [ref=e73]
+            - generic [ref=e77]: Webhooks
+        - listitem [ref=e78]:
+          - link "Pairing" [ref=e79] [cursor=pointer]:
+            - /url: /pairing
+            - img [ref=e80]
+            - generic [ref=e83]: Pairing
+        - listitem [ref=e84]:
+          - link "Profiles" [ref=e85] [cursor=pointer]:
+            - /url: /profiles
+            - img [ref=e86]
+            - generic [ref=e91]: Profiles
+        - listitem [ref=e92]:
+          - link "Config" [ref=e93] [cursor=pointer]:
+            - /url: /config
+            - img [ref=e94]
+            - generic [ref=e97]: Config
+        - listitem [ref=e98]:
+          - link "Keys" [ref=e99] [cursor=pointer]:
+            - /url: /env
+            - img [ref=e100]
+            - generic [ref=e103]: Keys
+        - listitem [ref=e104]:
+          - link "System" [ref=e105] [cursor=pointer]:
+            - /url: /system
+            - img [ref=e106]
+            - generic [ref=e108]: System
+        - listitem [ref=e109]:
+          - link "Documentation" [ref=e110] [cursor=pointer]:
+            - /url: /docs
+            - img [ref=e111]
+            - generic [ref=e113]: Documentation
+    - generic [ref=e114]:
+      - generic [ref=e115]: System
+      - status "Gateway"
+      - list [ref=e120]:
+        - listitem [ref=e121]:
+          - button "Restart Gateway" [ref=e122] [cursor=pointer]:
+            - img [ref=e123]
+            - generic [ref=e126]: Restart Gateway
+        - listitem [ref=e127]:
+          - button "Update Hermes" [ref=e128] [cursor=pointer]:
+            - img [ref=e129]
+            - generic [ref=e132]: Update Hermes
+    - generic [ref=e134]:
+      - button "Switch theme" [ref=e137] [cursor=pointer]:
+        - generic [ref=e138]:
+          - img [ref=e139]
+          - generic [ref=e145]: Hermes Teal
+      - button "Switch language" [ref=e148] [cursor=pointer]:
+        - generic [ref=e150]: EN
+    - generic [ref=e151]:
+      - generic [ref=e152]: …
+      - generic [ref=e153]:
+        - generic [ref=e154]: —
+        - link "Nous Research" [ref=e155] [cursor=pointer]:
+          - /url: https://nousresearch.com
+  - generic [ref=e156]:
+    - banner [ref=e157]:
+      - generic [ref=e158]:
+        - generic [ref=e159]:
+          - heading "Logs" [level=1] [ref=e160]
+          - generic [ref=e162]:
+            - generic [ref=e163]: AGENT · ALL · ALL
+            - button "Refresh" [disabled]:
+              - generic: ⠙
+        - generic [ref=e166]:
+          - generic [ref=e167] [cursor=pointer]: Auto-refresh
+          - switch "Auto-refresh" [ref=e168] [cursor=pointer]
+    - main [ref=e169]:
+      - generic [ref=e172]:
+        - toolbar "Logs" [ref=e173]:
+          - generic [ref=e174]:
+            - generic [ref=e175]: File
+            - radiogroup [ref=e176]:
+              - radio "AGENT" [checked] [ref=e177] [cursor=pointer]
+              - radio "ERRORS" [ref=e178] [cursor=pointer]
+              - radio "GATEWAY" [ref=e179] [cursor=pointer]
+          - generic [ref=e180]:
+            - generic [ref=e181]: Level
+            - radiogroup [ref=e182]:
+              - radio "ALL" [checked] [ref=e183] [cursor=pointer]
+              - radio "DEBUG" [ref=e184] [cursor=pointer]
+              - radio "INFO" [ref=e185] [cursor=pointer]
+              - radio "WARNING" [ref=e186] [cursor=pointer]
+              - radio "ERROR" [ref=e187] [cursor=pointer]
+          - generic [ref=e188]:
+            - generic [ref=e189]: Component
+            - radiogroup [ref=e190]:
+              - radio "ALL" [checked] [ref=e191] [cursor=pointer]
+              - radio "GATEWAY" [ref=e192] [cursor=pointer]
+              - radio "AGENT" [ref=e193] [cursor=pointer]
+              - radio "TOOLS" [ref=e194] [cursor=pointer]
+              - radio "CLI" [ref=e195] [cursor=pointer]
+              - radio "CRON" [ref=e196] [cursor=pointer]
+          - generic [ref=e197]:
+            - generic [ref=e198]: Lines
+            - radiogroup [ref=e199]:
+              - radio "50" [ref=e200] [cursor=pointer]
+              - radio "100" [checked] [ref=e201] [cursor=pointer]
+              - radio "200" [ref=e202] [cursor=pointer]
+              - radio "500" [ref=e203] [cursor=pointer]
+        - heading "agent.log" [level=3] [ref=e206]:
+          - img [ref=e207]
+          - text: agent.log
