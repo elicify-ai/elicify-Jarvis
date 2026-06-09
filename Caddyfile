@@ -1,0 +1,23 @@
+# Reverse proxy for the Hermes Agent pod.
+#
+# The devpod preview proxy and Fly's edge proxy both forward public
+# traffic to port 8080. Inside the container:
+#   :8642 — gateway (OpenAI-compatible API)
+#   :9119 — dashboard (web UI, v0.16.0)
+#
+# We route:
+#   /             → dashboard
+#   /v1/*         → gateway  (OpenAI-compatible chat/models)
+#   /api/*        → dashboard
+#   /health       → gateway  (for the Docker healthcheck)
+
+:8080 {
+    encode zstd gzip
+
+    # Gateway API
+    @api path /v1/* /v1 /health
+    reverse_proxy @api 127.0.0.1:8642
+
+    # Everything else → the web dashboard
+    reverse_proxy 127.0.0.1:9119
+}

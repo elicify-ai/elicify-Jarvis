@@ -1,0 +1,55 @@
+# fly.toml — configuration for the Hermes Agent pod.
+#
+# `fly launch --no-deploy` then `fly deploy` from this directory.
+# Secrets (LLM API keys, dashboard password) are set with
+# `fly secrets import` or `fly secrets set`.
+
+app = "hermes-jarvis"
+primary_region = "iad"
+
+# Single public port — Fly's edge proxy and the devpod preview proxy
+# both forward to 8080, which caddy reverse-proxies to the gateway
+# (:8642) and dashboard (:9119) inside the container.
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 250
+    soft_limit = 200
+
+# Persistent volume for Hermes state — config, sessions, skills,
+# memory, credentials. Survives deploys.
+[[mounts]]
+  source = "hermes_data"
+  destination = "/opt/data"
+
+[env]
+  # All bind addresses must be 0.0.0.0 — Fly reaches the machine via
+  # its private IP, not loopback.
+  API_SERVER_HOST = "0.0.0.0"
+  API_SERVER_ENABLED = "true"
+  HERMES_DASHBOARD = "1"
+  HERMES_DASHBOARD_HOST = "0.0.0.0"
+  HERMES_DASHBOARD_PORT = "9119"
+  HERMES_HOME = "/opt/data"
+  PORT = "8080"
+
+# Machine sizing — Hermes is light; 1 shared CPU / 1 GB is plenty.
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"
+  cpus = 1

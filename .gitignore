@@ -1,41 +1,36 @@
-# Dependencies
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Node (Hermes web admin dashboard uses Node)
 node_modules/
 .npm-cache/
-# pnpm content-addressable store (created when running in sandbox mode)
-.pnpm-store/
+
+# Hermes data (mounted as a Fly volume in production)
+.hermes/
+data/
+
+# Secrets — never commit
+.env
+.env.*
+*.keys.json
+
 # Build output
 dist/
+build/
 
-# Local data & auth
-store/
-data/
-logs/
-
-# Groups - per-installation state, not tracked
-groups/*
-
-# Composer-managed CLAUDE.md artifacts (regenerated every spawn) and
-# per-group memory (CLAUDE.local.md) must never be committed.
-**/CLAUDE.local.md
-**/.claude-shared.md
-**/.claude-fragments/
-
-# Secrets
-*.keys.json
-.env
-.env*
-
-# Temp files
-.tmp-*
-
-# OS
+# OS / IDE
 .DS_Store
-
-# IDE
 .idea/
 .vscode/
 
-# Skills system (local per-installation state)
-.nanoclaw/
+# Fly
+.fly/
 
-agents-sdk-docs
+# Logs
+*.log
+logs/
